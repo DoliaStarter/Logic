@@ -1,0 +1,63 @@
+usuñ(E,[E|L],L).
+usuñ(E,[H|L],[H|Wynik]):-
+    E\=H,
+    usuñ(E,L,Wynik).
+    
+waruneczek(E,X,L):-
+    member(X,L),
+    X\=E.
+usuñ_wszystkie(E,L,Wynik):-
+    findall(X,waruneczek(E,X,L),Wynik).
+
+dodaj(E,L,Wynik):-
+    append(L1,L2,L),
+    append(L1,[E],L3),
+    append(L3,L2,Wynik).
+
+
+odwróæ([],Acc,Acc).
+odwróæ([H|T],Acc,Result):-
+    NewAcc=[H|Acc],
+    odwróæ(T,NewAcc,Result).
+palindrom(L1):-
+    odwróæ(L1,[],L2),
+    L1=L2.
+
+
+podlista([],[]).
+podlista([H|T1],[H|T2]):-
+    podlista(T1,T2).
+podlista([_|T],L):-
+    podlista(T,L).
+
+
+odetnij_z_lewej(N,L,Wynik):-
+    length(X,N),
+    append(X,Wynik,L).
+odetnij_z_prawej(N,L,Wynik):-
+    length(X,N),
+    append(Wynik,X,L).
+
+
+zawiera(L,X):-
+    append([_|X],_,L).
+zawiera(L,X):-
+    append(X,[_|_],L).
+zawiera(L,X):-
+    append([_|_],X,L).
+zawiera(L,L).
+
+
+
+permutacja([],[]).
+permutacja([H|T],X):-
+    permutacja(T,Y),
+    dodaj(H,Y,X).
+    
+
+podziel(L,L1,L2):-
+    append(L1,L2,L),
+    length(L1,Len1),
+    length(L2,Len2),
+    Len1-Len2=<1,
+    Len2-Len1=<1.
