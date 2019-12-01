@@ -1,0 +1,11 @@
+neg(X):-
+    call(X),!,fail.
+neg(_):-
+    true.
+
+
+
+ifelse(Warunek,Powiodlo,_):-
+    call(Warunek),!,call(Powiodlo).
+ifelse(_,_,Niepowiodlo):-
+    call(Niepowiodlo).
