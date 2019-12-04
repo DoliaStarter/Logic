@@ -1,0 +1,15 @@
+func_call(Zapytanie,Wynik):-
+    Zapytanie=..Lista,
+    [Funkcja|Argumenty]=Lista,
+    append(Argumenty,[Wynik],NoweArgumenty),
+    NoweZapytanie =..[Funkcja|NoweArgumenty],
+    NoweZapytanie .
+    
+  
+func_call(Zapytanie,Pozycja,Wynik):-
+    Zapytanie=..Lista,
+    [Funkcja|Argumenty]=Lista,
+    insert(X,Pozycja-1,Argumenty,NoweArgumenty),
+    NoweZapytanie =..[Funkcja|NoweArgumenty],
+    NoweZapytanie.
+      
