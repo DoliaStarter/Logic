@@ -8,3 +8,8 @@ func_call(Funkcja/LiczbaArgumentow,Argumenty,Wynik):-
     append(Argumenty,[Wynik],NoweArgumenty),
     NoweZapytanie =..[Funkcja|NoweArgumenty],
     NoweZapytanie .
+    
+    
+ :- op(500, xfy, <#).
+ :- op(500, xfy, #).
+ 
