@@ -1,0 +1,10 @@
+func_call(Funkcja/LiczbaArgumentow/PozycjaWyniku,Argumenty,Wynik):-
+    nth1(PozycjaWyniku, NoweArgumenty, Wynik, Argumenty),
+    NoweZapytanie =..[Funkcja|NoweArgumenty],
+    NoweZapytanie .
+    
+
+func_call(Funkcja/LiczbaArgumentow,Argumenty,Wynik):-
+    append(Argumenty,[Wynik],NoweArgumenty),
+    NoweZapytanie =..[Funkcja|NoweArgumenty],
+    NoweZapytanie .
