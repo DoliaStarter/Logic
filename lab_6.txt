@@ -1,0 +1,46 @@
+func_call(Funkcja/LiczbaArgumentow/PozycjaWyniku,Argumenty,Wynik):-
+    nth1(PozycjaWyniku, NoweArgumenty, Wynik, Argumenty),
+    NoweZapytanie =..[Funkcja|NoweArgumenty],
+    NoweZapytanie .
+    
+
+func_call(Funkcja/LiczbaArgumentow,Argumenty,Wynik):-
+    append(Argumenty,[Wynik],NoweArgumenty),
+    NoweZapytanie =..[Funkcja|NoweArgumenty],
+    NoweZapytanie .
+    
+    
+
+m2([A|As], [B|Bs], [A,B|Rs]) :-
+    !, m2(As, Bs, Rs).
+m2([], Bs, Bs) :- !.
+m2(As, [], As).
+    
+    
+:- op(500, xfy, <#).
+:- op(500, xfy, #).
+
+
+Result <# Function # ArgsChain :- 
+	parse_args_chain(ArgsChain, Args), 
+	func_call(Function, Args, Result).
+    
+
+parse_args_chain(H # T, [H|Targs]) :- 
+    !,parse_args_chain(T,Targs).
+    
+parse_args_chain(H, [H]).
+
+
+   
+
+curry_call(function(NazwaFunkcji/IloscArg/Pozycja,Argumenty),Argument,Result):-
+    length(Argumenty,Tmp),
+    Dlugosc is Tmp+2,
+   (Dlugosc=IloscArg->func_call(NazwaFunkcji/IloscArg/Pozycja,[Argument|Argumenty],Result);
+   Result=function(NazwaFunkcji/IloscArg/Pozycja,[Argument|Argumenty])).
+
+
+
+    
+
