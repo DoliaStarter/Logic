@@ -26,9 +26,8 @@ parse_args_chain(H, [H]).
 curry_call(function(NazwaFunkcji/IloscArg/Pozycja,Argumenty),Argument,Result):-
     length(Argumenty,Tmp),
     Dlugosc is Tmp+2,
-   (Dlugosc=IloscArg->func_call(NazwaFunkcji/IloscArg/Pozycja,[Argument|Argumenty],Result);
+   (append(Argumenty,[Argument],NewArgs),Dlugosc=IloscArg->func_call(NazwaFunkcji/IloscArg/Pozycja,NewArgs,Result);
    Result=function(NazwaFunkcji/IloscArg/Pozycja,[Argument|Argumenty])).
-   
  
 
 
