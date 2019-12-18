@@ -44,7 +44,6 @@ initial_function(F, function(F, [])).
                     
 curry(F, #T #T2, Result):-
     !,
-    write('ti'),
     F =.. [NazwaFunkcji,Action,Args],
     Tmp <# T,
     length(Args,L),
@@ -55,7 +54,6 @@ curry(F, #T #T2, Result):-
 
 curry(F, A # T, Result) :-
     !,
-    write('ya'),
     F =.. [NazwaFunkcji,Action,Args],
     length(Args,L),
     I is L + 1,
