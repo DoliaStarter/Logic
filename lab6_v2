@@ -1,20 +1,21 @@
+
+%Zadanie 1
 func_call(Funkcja/LiczbaArgumentow/PozycjaWyniku,Argumenty,Wynik):-
     nth1(PozycjaWyniku, NoweArgumenty, Wynik, Argumenty),
     NoweZapytanie =..[Funkcja|NoweArgumenty],
     NoweZapytanie .
     
-
+%Zadanie 2
 func_call(Funkcja/LiczbaArgumentow,Argumenty,Wynik):-
     append(Argumenty,[Wynik],NoweArgumenty),
     NoweZapytanie =..[Funkcja|NoweArgumenty],
     NoweZapytanie .
     
     
-
+%Zadanie 3
 :- op(700, xfy, <#).
 :- op(600, xfy, #).
-:- op(500,fx,#).
-
+:- op(500, fx, #).
 
 
 parse_args_chain(H # T, [H|TArgs]) :- 
@@ -23,57 +24,45 @@ parse_args_chain(H # T, [H|TArgs]) :-
 	.
 parse_args_chain(H, [H]).
 
+%Zadanie 4
+
 curry_call(function(NazwaFunkcji/IloscArg/Pozycja,Argumenty),Argument,Result):-
+    !,
     length(Argumenty,Tmp),
     Dlugosc is Tmp+2,
    (append(Argumenty,[Argument],NewArgs),Dlugosc=IloscArg->func_call(NazwaFunkcji/IloscArg/Pozycja,NewArgs,Result);
    Result=function(NazwaFunkcji/IloscArg/Pozycja,[Argument|Argumenty])).
- 
+curry_call(function(NazwaFunkcji/IloscArg,Argumenty),Argument,Result) :-
+    curry_call(function(NazwaFunkcji/IloscArg/IloscArg,Argumenty),Argument,Result).
 
-
+%Zadanie 5
 Result <# Function # ArgsChain :-
-    initial_function(Function, IF),
+    curry_help(Function, HF),
+    initial_function(HF, IF),
     curry(IF, ArgsChain, Result).
+    
+
 
 initial_function(function(F,A), function(F,A)) :-
     !.
-
-
 initial_function(F, function(F, [])).
-                    
-curry(F, #T #T2, Result):-
-    !,
-    F =.. [NazwaFunkcji,Action,Args],
-    Tmp <# T,
-    length(Args,L),
-    I is L + 1,
-    nth1(I,NoweArgumenty,Tmp,Args),   
-    NowaFunkcja =..[NazwaFunkcji,Action,NoweArgumenty],
-    curry(NowaFunkcja,T2,Result).
+
+
+
+
 
 curry(F, A # T, Result) :-
     !,
-    F =.. [NazwaFunkcji,Action,Args],
-    length(Args,L),
-    I is L + 1,
-    nth1(I,NoweArgumenty,A,Args),   
-    NowaFunkcja =..[NazwaFunkcji,Action,NoweArgumenty],
-    curry(NowaFunkcja,T,Result).
+    curry_help(A, UA),
+    curry_call(F, UA, Tmp),
+    curry(Tmp,T,Result).
+    
 
-curry(F, #T, Result):-
-    F =.. [NazwaFunkcji,Action/ArgCount,Args],
-    A <# T,
-    help_curry(NazwaFunkcji,Action/ArgCount,Args,A,Result).
-curry(F, A, Result) :-
-    F =.. [NazwaFunkcji,Action/ArgCount,Args],
-    help_curry(NazwaFunkcji,Action/ArgCount,Args,A,Result).
-
-
-help_curry(NazwaFunkcji,Action/ArgCount,Args,A,Result):-
-    length(Args,L),
-    I is L + 1,
-    nth1(I,NewArgs,A,Args),   
-    R is ArgCount - 1,
-    (length(NewArgs,R) -> (
-        func_call(Action/ArgCount,NewArgs,Result));(
-        Result =.. [NazwaFunkcji,Action/ArgCount,NewArgs])).
+curry(F, A, Result):-
+    curry_help(A, UA),
+    curry_call(F, UA,Result).
+    
+curry_help(#(A), UA) :-
+    !,
+    UA <# A.
+curry_help(A, A).
